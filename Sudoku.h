@@ -15,6 +15,7 @@ class Sudoku
 		void rotate(int n);
 		void flip(int n);
 		void transform();
+		void checker();
 	
 		void change();
 		void printOut(bool isAns);
@@ -26,6 +27,7 @@ class Sudoku
 	private:
 		int iii;
 		int hint;
+		int valid;
 		int map[SIZE*SIZE];
 		int ans[SIZE*SIZE];
 		void cyclic_roll(int &a, int &b, int &c, int &d);

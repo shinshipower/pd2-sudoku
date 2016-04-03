@@ -14,6 +14,7 @@ Sudoku::Sudoku() {
 		map[iii]=0;
 		ans[iii]=0;
 	}
+	valid = 1;
 	
 }
 
@@ -43,6 +44,49 @@ void Sudoku::readIn(){
 			if (row[jj]!=0)
 				hint++;
 			map[ii*9+jj]=row[jj];
+		}
+	}
+	checker();
+	
+}
+
+void Sudoku::checker(){
+	
+	int ii,jj,kk,mm,k,m,Z;
+	for(ii=0;ii<9;ii++){
+		for(jj=0;jj<9;jj++){
+			if(map[ii*9+jj])
+			{	
+				for(kk=0;kk<9;kk++)
+				{
+					if (map[ii*9+jj] == map[ii*9+kk] && kk != jj)
+					{
+						valid =0;
+						cout<<"row check faile on "<<ii<<" = "<<map[ii*9+jj]<<endl;
+					}
+				} 
+				for(kk=0;kk<9;kk++)
+				{
+					if (map[ii*9+jj] == map[kk*9+jj] && kk != ii)
+					{
+						valid =0;
+						cout<<"col check faile on "<<jj<<" = "<<map[ii*9+jj]<<endl;
+					}
+				}
+				k=ii/3;
+				m=jj/3;
+
+				for(kk = 0;kk<3;kk++){
+					for(mm=0;mm<3;mm++){
+						Z = (k*3+kk)*9+m*3+mm;
+						if(map[ii*9+jj] == map[Z] && Z!=(ii*9+jj)){
+							valid = 0;
+							cout<<"block check faile on "<<k<<" "<<m<<" = "<<map[ii*9+jj]<<endl;
+							}
+					}
+				} 
+
+			}
 		}
 	}
 	
@@ -144,8 +188,9 @@ void Sudoku::solve(){
 	int anss;
 	vector <int > digboard(81);
 	int ii;
-	//cout<<"hint= "<<hint<<endl;
-	if(hint>=17){
+	//cout<<"hint= "<<hint<<" "<<"valid = "<<valid <<endl;
+	if(valid){
+	if(hint<17){cout<<'2'<<endl;}else{
 	for(ii=0;ii<81;ii++)
 		digboard[ii]=map[ii];
 
@@ -164,8 +209,9 @@ void Sudoku::solve(){
 	}
 	if(anss > 1){
 		cout<<'2'<<endl;
+	}}
+	}else {	cout<<'0'<<endl;
 	}
-	}else {	cout<<'0'<<endl;}
 	
 
 }
