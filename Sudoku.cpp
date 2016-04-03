@@ -9,6 +9,7 @@ using namespace std;
 
 Sudoku::Sudoku() {
 	iii=0;
+	hint = 0;
 	for(iii=0;iii<81;iii++){
 		map[iii]=0;
 		ans[iii]=0;
@@ -39,7 +40,8 @@ void Sudoku::readIn(){
 			//cout<<"I got : "<<row[0]<<row[1]<<row[2]<<row[3]<<row[4]<<row[5]<<row[6]<<row[7]<<row[8]<<endl;
 
 		for(jj=0;jj<9;jj++){
-
+			if (row[jj]!=0)
+				hint++;
 			map[ii*9+jj]=row[jj];
 		}
 	}
@@ -142,6 +144,8 @@ void Sudoku::solve(){
 	int anss;
 	vector <int > digboard(81);
 	int ii;
+	//cout<<"hint= "<<hint<<endl;
+	if(hint>=17){
 	for(ii=0;ii<81;ii++)
 		digboard[ii]=map[ii];
 
@@ -151,7 +155,7 @@ void Sudoku::solve(){
 
 	for(ii=0;ii<81;ii++)
 		ans[ii]=digboard[ii];
-
+	
 	if(anss == 0)
 		cout<<'0'<<endl;
 	if(anss == 1){
@@ -161,7 +165,8 @@ void Sudoku::solve(){
 	if(anss > 1){
 		cout<<'2'<<endl;
 	}
-
+	}else {	cout<<'0'<<endl;}
+	
 
 }
 

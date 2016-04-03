@@ -25,6 +25,7 @@ class Sudoku
 
 	private:
 		int iii;
+		int hint;
 		int map[SIZE*SIZE];
 		int ans[SIZE*SIZE];
 		void cyclic_roll(int &a, int &b, int &c, int &d);
