@@ -297,8 +297,8 @@ void Sudoku::SolveSudoku::sol()
     if (Found == 81) //全部空格數字都找到
     {
         setAns(Ans+1); //數獨解個數加1
-	for(i=0;i<81;i++)
-		O_board[i]=in_board[i];
+	//for(i=0;i<81;i++)
+	//	O_board[i]=in_board[i];
 	//cout<<"WTF"<<" "<<Found<<endl;
 	//system("pause");
     }
@@ -340,7 +340,7 @@ vector < int > Sudoku::SolveSudoku::get_board() //取得數獨解答
     vector <int> out_board(SIZE*SIZE);
     for (i=0;i<SIZE*SIZE;i++)
     {
-        out_board[i] = O_board[i];
+        out_board[i] = in_board[i];
     }
     return out_board;
 }
