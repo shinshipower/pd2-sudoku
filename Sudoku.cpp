@@ -18,6 +18,17 @@ Sudoku::Sudoku() {
 
 
 int Sudoku::SolveSudoku::Ans = 0;
+int Sudoku::SolveSudoku::O_board[];
+
+void Sudoku::giveQuestion(){
+
+	int M17[] {0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,3,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,5,0,0,4,0,1,6,0,0,0,0,0,0,0,7,1,0,0,0,0,0,0,5,0,0,0,0,2,0,0,0,0,0,0,8,0,0,4,0,0,3,0,9,1,0,0,0,0};
+	int ii;
+	for(ii=0;ii<81;ii++){map[ii]=M17[ii];}
+	change();
+	printOut(false);
+
+}
 
 void Sudoku::readIn(){
 
@@ -25,7 +36,7 @@ void Sudoku::readIn(){
 	int row[9];
 	for(ii=0;ii<9;ii++){
 			cin>>row[0]>>row[1]>>row[2]>>row[3]>>row[4]>>row[5]>>row[6]>>row[7]>>row[8];
-			cout<<"I got : "<<row[0]<<row[1]<<row[2]<<row[3]<<row[4]<<row[5]<<row[6]<<row[7]<<row[8]<<endl;
+			//cout<<"I got : "<<row[0]<<row[1]<<row[2]<<row[3]<<row[4]<<row[5]<<row[6]<<row[7]<<row[8]<<endl;
 
 		for(jj=0;jj<9;jj++){
 
@@ -48,20 +59,83 @@ void Sudoku::changeNum(int a, int b){
 
 void Sudoku::changeRow(int a, int b){
 
-	int tmp[81];
+	int tmp;
 	int ii,jj;
+	for(ii=0;ii<9;ii++){
+		if (ii/3 == a){
+			for (jj=0;jj<9;jj++){
+				tmp = map[ii*9+jj];
+				map[ii*9+jj] = map[(b*3+ii%3)*9+jj];
+				map[(b*3+ii%3)*9+jj] = tmp;
+			}
+		}
+	}
 
 }
 void Sudoku::changeCol(int a, int b){
 
+	int tmp;
+	int ii,jj;
+	for (ii = 0;ii<9;ii++){
+		for(jj=0;jj<9;jj++){
+			if(jj/3==a){
+				tmp = map[ii*9+jj];
+				map[ii*9+jj]=map[ii*9+(b*3+jj%3)];
+				map[ii*9+(b*3+jj%3)]=tmp;			
+
+			}	
+		}
+	}
+
 }
 
 void Sudoku::rotate(int n){
+int ii,jj,kk;
+int p = n%4;
+if( n != 0){
+	for(kk = 0;kk<p;kk++){
+		for(ii=0; ii<9/2; ii++)
+   		for( jj=0; jj<(9+1)/2; jj++)
+       			cyclic_roll(map[ii*9+jj], map[(9-1-jj)*9+ii], map[(9-1-ii)*9+(9-1-jj)], map[jj*9+(9-1-ii)]);
+	}
+}
+}
+
+void Sudoku::cyclic_roll(int &a, int &b, int &c, int &d){
+
+int temp = a;
+   a = b;
+   b = c;
+   c = d;
+   d = temp;
+
 
 }
 
 void Sudoku::flip(int n){
-
+	int ii,jj,tmp;
+	if(n==0){
+		for(ii=0;ii<9/2;ii++){
+			for(jj=0;jj<9;jj++){
+			tmp = map[ii*9+jj];
+			map[ii*9+jj] = map[(9-1-ii)*9+jj];
+			map[(9-1-ii)*9+jj] = tmp;
+			}
+		
+		}
+	}
+	if(n == 1){
+		for(ii=0;ii<9;ii++){
+			for(jj=0;jj<9/2;jj++){
+			tmp = map[ii*9+jj];
+			map[ii*9+jj] = map[ii*9+9-1-jj];
+			map[ii*9+9-1-jj] = tmp;
+			}
+		
+		}
+	}
+	
+	
 }
 
 void Sudoku::solve(){
@@ -78,14 +152,22 @@ void Sudoku::solve(){
 	for(ii=0;ii<81;ii++)
 		ans[ii]=digboard[ii];
 
-	printOut(true);
+	if(anss == 0)
+		cout<<'0'<<endl;
+	if(anss == 1){
+		cout<<'1'<<endl;
+		printOut(true);
+	}
+	if(anss > 1){
+		cout<<'2'<<endl;
+	}
 
 
 }
 
 
 void Sudoku::transform(){
-	readIn();
+	//readIn();
 	change();
 	printOut(false);	
 
@@ -180,6 +262,7 @@ void Sudoku::SolveSudoku::sol()
         {
             count[i] = 0;
             Found++;
+	//	cout<<"found is now "<< Found<< "and Ans = "<<Ans<< endl;////////////////////////////
             for (j=0;j<SIZE;j++)
             {
                 if(!tag[i][j])
@@ -214,9 +297,13 @@ void Sudoku::SolveSudoku::sol()
     if (Found == 81) //全部空格數字都找到
     {
         setAns(Ans+1); //數獨解個數加1
+	for(i=0;i<81;i++)
+		O_board[i]=in_board[i];
+	//cout<<"WTF"<<" "<<Found<<endl;
+	//system("pause");
     }
     else //一般解法不行，只好用暴力解了XD
-    {
+    {  //cout<<"WTF AGAIN"<<endl;
         //找出排除數字最多的空格
         Max = 0;
         iMax = -1;
@@ -253,7 +340,7 @@ vector < int > Sudoku::SolveSudoku::get_board() //取得數獨解答
     vector <int> out_board(SIZE*SIZE);
     for (i=0;i<SIZE*SIZE;i++)
     {
-        out_board[i] = in_board[i];
+        out_board[i] = O_board[i];
     }
     return out_board;
 }

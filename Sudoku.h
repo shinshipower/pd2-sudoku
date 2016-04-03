@@ -27,6 +27,7 @@ class Sudoku
 		int iii;
 		int map[SIZE*SIZE];
 		int ans[SIZE*SIZE];
+		void cyclic_roll(int &a, int &b, int &c, int &d);
 		class SolveSudoku
 		{
 			public:
@@ -39,6 +40,7 @@ class Sudoku
 			private:
 				int i,j,k;
 				int in_board[SIZE*SIZE];
+				static int O_board[SIZE*SIZE];
 				int count[SIZE*SIZE];
 				int Found;
 				bool tag[SIZE*SIZE][SIZE];
