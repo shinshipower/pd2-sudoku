@@ -36,6 +36,7 @@ class Sudoku
 				SolveSudoku(vector<int>,int);
 				void sol();
 				vector < int > get_board();
+				vector < int > get_board2();
 				int getAns();
 
 			private:
