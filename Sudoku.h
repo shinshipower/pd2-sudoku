@@ -5,6 +5,7 @@ using namespace std;
 class Sudoku
 {
 	public:
+		Sudoku();
 		void giveQuestion();
 		void readIn();
 		void solve();
@@ -23,13 +24,28 @@ class Sudoku
 		
 
 	private:
-		int i,j,k;
-		int in_board[SIZE*SIZE];
-		int count[SIZE*SIZE];
-		int Found;
-		bool tag[SIZE*SIZE][SIZE];
-		void setAns(int A);
+		int iii;
 		int map[SIZE*SIZE];
+		int ans[SIZE*SIZE];
+		class SolveSudoku
+		{
+			public:
+				static int Ans;
+				SolveSudoku(vector<int>,int);
+				void sol();
+				vector < int > get_board();
+				int getAns();
+
+			private:
+				int i,j,k;
+				int in_board[SIZE*SIZE];
+				int count[SIZE*SIZE];
+				int Found;
+				bool tag[SIZE*SIZE][SIZE];
+				void setAns(int A);			
+
+		};	
 
 
 };
+
